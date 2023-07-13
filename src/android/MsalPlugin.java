@@ -560,6 +560,7 @@ public class MsalPlugin extends CordovaPlugin {
 
     private JSONArray processClaims(Map<String, ?> claims) {
         JSONArray claimsArr = new JSONArray();
+        if(claims==null || claims.isEmpty() ) return claimsArr;
         for (Map.Entry<String, ?> claim : claims.entrySet()) {
             try {
                 JSONObject claimObj = new JSONObject();
