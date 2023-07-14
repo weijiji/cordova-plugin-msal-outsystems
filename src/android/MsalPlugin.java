@@ -170,14 +170,17 @@ public class MsalPlugin extends CordovaPlugin {
             public void run() {
                 try {
                     String keyHashUrlFriendly = "";
-                    try {
-                        keyHashUrlFriendly = URLEncoder.encode(MsalPlugin.this.keyHash, "UTF-8");
-                    } catch(UnsupportedEncodingException e) {
-                        MsalPlugin.this.callbackContext.error(e.getMessage());
-                    }
                     StringBuilder authorities = new StringBuilder("    \"authorities\": [\n");
                     String data;
                     try {
+                        if (!"".equals(options.optString("keyHash"))) {
+                            MsalPlugin.this.keyHash = options.getString("keyHash");
+                        }
+                        try {
+                            keyHashUrlFriendly = URLEncoder.encode(MsalPlugin.this.keyHash, "UTF-8");
+                        } catch(UnsupportedEncodingException e) {
+                            MsalPlugin.this.callbackContext.error(e.getMessage());
+                        }
                         if (!"".equals(options.optString("tenantId"))) {
                             MsalPlugin.this.tenantId = options.getString("tenantId");
                         }
@@ -560,7 +563,6 @@ public class MsalPlugin extends CordovaPlugin {
 
     private JSONArray processClaims(Map<String, ?> claims) {
         JSONArray claimsArr = new JSONArray();
-        if(claims==null || claims.isEmpty() ) return claimsArr;
         for (Map.Entry<String, ?> claim : claims.entrySet()) {
             try {
                 JSONObject claimObj = new JSONObject();
