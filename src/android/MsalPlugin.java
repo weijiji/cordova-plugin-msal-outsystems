@@ -172,15 +172,15 @@ public class MsalPlugin extends CordovaPlugin {
                     String keyHashUrlFriendly = "";
                     StringBuilder authorities = new StringBuilder("    \"authorities\": [\n");
                     String data;
-                    if (!"".equals(options.optString("keyHash"))) {
+                    try {
+                        if (!"".equals(options.optString("keyHash"))) {
                             MsalPlugin.this.keyHash = options.getString("keyHash");
-                    }
-                    try {
-                        keyHashUrlFriendly = URLEncoder.encode(MsalPlugin.this.keyHash, "UTF-8");
-                    } catch(UnsupportedEncodingException e) {
-                        MsalPlugin.this.callbackContext.error(e.getMessage());
-                    }
-                    try {
+                        }
+                        try {
+                            keyHashUrlFriendly = URLEncoder.encode(MsalPlugin.this.keyHash, "UTF-8");
+                        } catch(UnsupportedEncodingException e) {
+                            MsalPlugin.this.callbackContext.error(e.getMessage());
+                        }
                         if (!"".equals(options.optString("tenantId"))) {
                             MsalPlugin.this.tenantId = options.getString("tenantId");
                         }
